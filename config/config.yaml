@@ -1,0 +1,94 @@
+# Unified MoE Configuration
+# Supports multiple model types: llama, qwen
+# Change model.type to switch between models
+
+# System Configuration
+system:
+  seed: 42
+  # deterministic: true
+  output_dir: "domain_models"
+  gradient_checkpointing: false  # Enable for memory efficiency
+
+# GPU Configuration
+gpu:
+  cuda_visible_devices: "0"
+  device: "cuda:0"
+
+# Model Configuration
+model:
+  type: "llama"  # Options: "llama", "qwen" - auto-resolves name if not specified
+  name: null  # null = auto-resolve from type, or specify explicit model path
+  max_length: 800
+  trust_remote_code: true
+  generation:
+    max_new_tokens: 20
+    do_sample: false
+    pad_token_id: null
+    eos_token_id: null
+
+# LoRA Configuration (for domain training)
+lora:
+  r: 32  # Increased from 32 to 64 for better learning capacity
+  alpha: 64  # Increased from ㅎ64 to 128 for better learning capacity
+  dropout: 0.1
+  target_modules: ["gate_proj", "up_proj", "down_proj", "q_proj", "k_proj", "v_proj", "o_proj"]
+  bias: "none"
+
+# Training Configuration (for domain training)
+training:
+  epochs: 2
+  batch_size: 1  # Increased from 1 to 2
+  gradient_accumulation_steps: 16  # Reduced from 16 to 8 (effective batch size = 16)
+  learning_rate: 2e-4 # 원래 2e-4인데 
+  weight_decay: 0.01
+  warmup_ratio: 0.05
+  lr_scheduler_type: "cosine"
+  fp16: true
+  max_grad_norm: 1.0
+  logging_steps: 10
+  save_steps: 500
+  save_total_limit: 2
+  eval_strategy: "no"  # Disable HuggingFace default evaluation
+  eval_steps: 50
+  load_best_model_at_end: false  # Disable since no evaluation
+  eval_batch_size: 1
+  gradient_checkpointing: False  # Enable for memory efficiency
+  remove_unused_columns: false
+  dataloader_pin_memory: false
+  dataloader_num_workers: 0
+  report_to: null
+  metric_for_best_model: "eval_accuracy"
+  greater_is_better: true
+  disable_tqdm: false
+
+# MoE Configuration (for router training)
+moe:
+  num_epochs: 1
+  batch_size: 1
+  eval_batch_size: 32
+  gradient_accumulation_steps: 128
+  learning_rate: 5e-4  # Slightly higher LR for better convergence # 원래 1e-4였음
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  load_balancing_loss_weight: 0
+  logging_steps: 5
+  eval_steps: 10
+  bf16: true
+  gradient_checkpointing: true
+  max_grad_norm: 1.0
+  top_k: 1  # Number of experts to select per token (1 for hard routing, 2+ for soft routing)
+
+# Data Configuration
+data:
+  max_samples: null  # null means use all samples
+  eval_max_samples: 256
+  domains: ["medical", "law", "math", "code", "MMLU"]
+  train_data_path: "data/processed/total/total_train.json"
+  eval_data_path: "data/processed/total/total_test.json"
+
+# Output Configuration
+output:
+  domain_models_dir: "test_domain_models"
+  moe_models_dir: "moe_models"
+  experiments_dir: "experiments"
+  logs_dir: "logs"

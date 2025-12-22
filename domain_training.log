@@ -1,0 +1,52 @@
+2025-12-22 10:03:53,466 - __main__ - INFO - 🚀 Starting LoRA training for medical domain
+2025-12-22 10:03:53,466 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:04:05,848 - __main__ - INFO - 🚀 Starting LoRA training for medical domain
+2025-12-22 10:04:05,848 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:10:42,794 - __main__ - INFO - 🚀 Starting LoRA training for medical domain
+2025-12-22 10:10:42,794 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:10:53,068 - src.core.dataset - INFO - Loaded 10 train samples for domain=medical
+2025-12-22 10:10:53,302 - src.core.dataset - INFO - Loaded 256 test samples for domain=medical
+2025-12-22 10:10:53,470 - src.core.trainer - INFO - Starting LoRA training for domain=medical (samples=10, epochs=1, batch=1, grad_accum=16)
+2025-12-22 10:10:57,910 - src.core.trainer - INFO - LoRA adapter for domain=medical saved to test_domain_models/medical/final_adapter (train_loss=2.407322645187378)
+2025-12-22 10:10:58,054 - __main__ - INFO - ✅ MEDICAL domain training completed successfully
+2025-12-22 10:10:58,055 - __main__ - INFO -    Training time: 14.93 seconds
+2025-12-22 10:10:58,055 - __main__ - INFO -    Final loss: 2.4073
+2025-12-22 10:10:58,055 - __main__ - INFO -    Adapter saved to: test_domain_models/medical/final_adapter
+2025-12-22 10:10:58,056 - __main__ - INFO - 📊 Training summary saved to: test_domain_models/medical_training_summary.json
+2025-12-22 10:10:58,056 - __main__ - INFO - 📝 Config file saved to: test_domain_models/medical/config.yaml
+2025-12-22 10:11:21,426 - __main__ - INFO - 🚀 Starting LoRA training for law domain
+2025-12-22 10:11:21,870 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:11:32,294 - src.core.dataset - INFO - Loaded 10 train samples for domain=law
+2025-12-22 10:11:32,947 - src.core.dataset - INFO - Loaded 256 test samples for domain=law
+2025-12-22 10:11:33,120 - src.core.trainer - INFO - Starting LoRA training for domain=law (samples=10, epochs=1, batch=1, grad_accum=16)
+2025-12-22 10:11:38,713 - src.core.trainer - INFO - LoRA adapter for domain=law saved to test_domain_models/law/final_adapter (train_loss=1.1676253080368042)
+2025-12-22 10:11:38,942 - __main__ - INFO - ✅ LAW domain training completed successfully
+2025-12-22 10:11:38,943 - __main__ - INFO -    Training time: 16.75 seconds
+2025-12-22 10:11:38,945 - __main__ - INFO -    Final loss: 1.1676
+2025-12-22 10:11:38,945 - __main__ - INFO -    Adapter saved to: test_domain_models/law/final_adapter
+2025-12-22 10:11:38,945 - __main__ - INFO - 📊 Training summary saved to: test_domain_models/law_training_summary.json
+2025-12-22 10:11:38,946 - __main__ - INFO - 📝 Config file saved to: test_domain_models/law/config.yaml
+2025-12-22 10:11:59,984 - __main__ - INFO - 🚀 Starting LoRA training for math domain
+2025-12-22 10:11:59,984 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:12:08,696 - src.core.dataset - INFO - Loaded 10 train samples for domain=math
+2025-12-22 10:12:08,901 - src.core.dataset - INFO - Loaded 256 test samples for domain=math
+2025-12-22 10:12:09,041 - src.core.trainer - INFO - Starting LoRA training for domain=math (samples=10, epochs=1, batch=1, grad_accum=16)
+2025-12-22 10:12:13,282 - src.core.trainer - INFO - LoRA adapter for domain=math saved to test_domain_models/math/final_adapter (train_loss=2.0879740715026855)
+2025-12-22 10:12:13,421 - __main__ - INFO - ✅ MATH domain training completed successfully
+2025-12-22 10:12:13,422 - __main__ - INFO -    Training time: 13.16 seconds
+2025-12-22 10:12:13,422 - __main__ - INFO -    Final loss: 2.0880
+2025-12-22 10:12:13,422 - __main__ - INFO -    Adapter saved to: test_domain_models/math/final_adapter
+2025-12-22 10:12:13,423 - __main__ - INFO - 📊 Training summary saved to: test_domain_models/math_training_summary.json
+2025-12-22 10:12:13,423 - __main__ - INFO - 📝 Config file saved to: test_domain_models/math/config.yaml
+2025-12-22 10:12:33,597 - __main__ - INFO - 🚀 Starting LoRA training for code domain
+2025-12-22 10:12:33,597 - __main__ - INFO - Configuration: max_samples=10, output_dir=test_domain_models
+2025-12-22 10:12:41,932 - src.core.dataset - INFO - Loaded 10 train samples for domain=code
+2025-12-22 10:12:42,203 - src.core.dataset - INFO - Loaded 256 test samples for domain=code
+2025-12-22 10:12:42,346 - src.core.trainer - INFO - Starting LoRA training for domain=code (samples=10, epochs=1, batch=1, grad_accum=16)
+2025-12-22 10:12:46,813 - src.core.trainer - INFO - LoRA adapter for domain=code saved to test_domain_models/code/final_adapter (train_loss=2.7853405475616455)
+2025-12-22 10:12:46,956 - __main__ - INFO - ✅ CODE domain training completed successfully
+2025-12-22 10:12:46,956 - __main__ - INFO -    Training time: 12.98 seconds
+2025-12-22 10:12:46,957 - __main__ - INFO -    Final loss: 2.7853
+2025-12-22 10:12:46,957 - __main__ - INFO -    Adapter saved to: test_domain_models/code/final_adapter
+2025-12-22 10:12:46,957 - __main__ - INFO - 📊 Training summary saved to: test_domain_models/code_training_summary.json
+2025-12-22 10:12:46,958 - __main__ - INFO - 📝 Config file saved to: test_domain_models/code/config.yaml
