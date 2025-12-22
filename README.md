@@ -65,7 +65,7 @@ Dense2MoE/
 └── requirements.txt          # 📦 의존성
 ```
 
-## 🔧 Setting
+## Setting
 
 ### Model Switching (config.yaml)
 ```yaml
