@@ -1,0 +1,10 @@
+{
+  "dataset_name": "lex_glue_case_hold",
+  "domain": "law",
+  "total_samples": 52500,
+  "train_samples": 45000,
+  "validation_samples": 3900,
+  "test_samples": 3600,
+  "format": "legal_case_analysis",
+  "language": "english"
+}
