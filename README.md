@@ -168,7 +168,7 @@ python scripts/evaluation/evaluate.py \
 - `*_training_summary.json`: 학습 요약
 
 ---
-
+<!-- 
 
 # Model 위치
 
@@ -420,7 +420,7 @@ top-2
     | --- | --- | --- | --- | --- | --- | --- | --- |
     | **zero-start-router_mlp** | 56 | 51.7 | 35.4 | 70.9 | 57 | **54.2** | 1 |
     | **zero-start-router_mlp_attention** | 64.33 | 82.7 | 43.8 | 72.5 | 57.7 | **64.206** | 2 |
-
+ -->
 
 
 **Author**: Gyubin Choi    
