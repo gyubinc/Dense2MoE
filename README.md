@@ -170,3 +170,238 @@ python scripts/evaluation/evaluate.py \
 ---
 
 **Author**: Gyubin Choi
+
+# Experiment Results
+
+# Qwen
+# Dense model
+
+- base model
+    - 학습하지 않은 base model
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | qwen-base | 69.33 | 66.5 | 40.5 | 61.6 | 72.8 | 62.146 |
+- domain model
+    - 각 도메인별로 학습한 모델
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-adapter-law** | 63 | 89.6 | 40.5 | 61.3 | 70.3 | **64.94** |
+        | **eval-adapter-math** | 69 | 68.9 | 66 | 64.1 | 73.4 | **68.28** |
+        | **eval-adapter-medical** | 69.33 | 68.6 | 46.1 | 68.8 | 73.5 | **65.266** |
+        | **eval-adapter-code** | 75 | 69.1 | 45.1 | 63.5 | 73.7 | **65.28** |
+    - 20%만 사용한 모델
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-qwen-law-only** | 67 | 77.6 | 42.4 | 63.1 | 74.8 | **64.98** |
+        | **eval-qwen-math-only** | 68 | 67.7 | 49 | 62 | 74.1 | **64.16** |
+        | **eval-qwen-medical-only** | 70 | 68.9 | 44.6 | 64.8 | 75.6 | **64.78** |
+        | **eval-qwen-code-only** | 70.33 | 66.8 | 41.8 | 61.5 | 72.9 | **62.666** |
+    
+- general model
+    
+    모든 데이터셋을 학습한 모델
+    
+    - mlp만 학습
+        
+        
+        | name | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-adapter-general** | 76.33 | 87.6 | 63.1 | 69.2 | 74.4 | **74.126** |
+    - mlp + attention도 학습
+        
+        
+        | lr | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | 2e-4 | 74.33 | 88.0 | 65.8 | 69.7 | 74.5 | 74.466 |
+    - 12,600개로 학습
+        
+        모든 데이터셋을 학습한 모델
+        
+        - mlp만 학습
+            
+            
+            | name | code | law | math | medical | mmlu | average |
+            | --- | --- | --- | --- | --- | --- | --- |
+            | **eval-adapter-general** | 76.33 | 87.6 | 63.1 | 69.2 | 74.4 | **74.126** |
+        - mlp + attention도 학습
+            
+            
+            | lr | code | law | math | medical | mmlu | average |
+            | --- | --- | --- | --- | --- | --- | --- |
+            | 2e-4 | 74.33 | 80.9 | 57.4 | 66.1 | 74.5 | **70.646** |
+            | **2e-5** | 75 | 81.2 | 59.1 | 66.3 | 75.7 | **71.46** |
+            | **2e-6** | 76 | 82.2 | 58.5 | 67.4 | 74.9 | **71.8** |
+
+# MoE model
+
+- moe-base model
+    
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **eval-moe-base** | 69 | 77 | 53.6 | 67 | 74.2 | **68.16** | 1 |
+    | **eval-moe-base** | 72 | 77.2 | 53.2 | 65.8 | 75.8 | 68.8 | 2 |
+- D2H model
+    
+    domain model를 결합한 형태
+    
+    - Router만 학습
+        
+        
+        | domain | code | law | math | medical | mmlu | average | top-k |
+        | --- | --- | --- | --- | --- | --- | --- | --- |
+        | **final_router_top1** | 78 | 90.1 | 66.3 | 68.3 | 75 | **75.54** | 1 |
+        | **final_router_top2** | 75.67 | 86.2 | 65.1 | 68.7 | 76 | **74.334** | 2 |
+    - 각자 한번에 학습
+    
+    | **domain** | **code** | **law** | **math** | **medical** | **mmlu** | **average** | **top-k** |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **attention-noaux-5e5-top1** | 75.67 | 87.8 | 65.5 | 69.3 | 73.8 | **74.414** | 1 |
+    | **mlp-attention-noaux-5e5-top1** | 72 | 88.4 | 60.8 | 64 | 73.3 | **71.7** | 1 |
+    | **mlp-noaux-5e5-top1** | 75 | 88.1 | 63.8 | 66.8 | 73.4 | **73.42** | 1 |
+    |  |  |  |  |  |  |  |  |
+    | **attention-0-5e5-top2** | **76** | **87.1** | **63** | **68.1** | **73.6** | **73.56** | 2 |
+    | **attention+mlp-noaux-5e5-top2** | **72.67** | **86.5** | **60.4** | **63.3** | **72.4** | **71.054** | 2 |
+    | **mlp-noaux-5e5-top2** | **74.67** | **86.1** | **60.6** | **65.6** | **74.4** | **72.274** | 2 |
+    - router를 먼저 학습한 후 결합
+        
+        
+        | domain | code | law | math | medical | mmlu | average | top-k |
+        | --- | --- | --- | --- | --- | --- | --- | --- |
+        | **trained_router_attention** | 78 | 90.1 | 66.3 | 68.2 | 74.5 | **75.42** | 1 |
+        | **trained_router_mlp** | 78 | 90.2 | 66.4 | 68 | 74.7 | **75.46** | 1 |
+        | **trained_router_attention+mlp** | 78 | 90.1 | 66.3 | 68.4 | 74.8 | **75.52** | 1 |
+        | **trained_router_mlp** | 75.67 | 85.9 | 64.9 | 68.3 | 75.9 | **74.134** | 2 |
+        | **trained_router_attention** | 76 | 86 | 64.7 | 68.7 | 75.8 | **74.24** | 2 |
+        | **trained_router_attention+mlp** | 76 | 86.3 | 65.1 | 68.3 | 75.7 | **74.28** | 2 |
+- zero adapter model
+    - router+adapter만 학습
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **aux0_LR5e4** | 77.0 | 87.1 | 62.9 | 67.7 | 74.0 | 73.74 | 1 |
+    | **aux0_LR5e4** | 76.67 | 88.5 | 66.9 | 69.9 | 73.4 | 75.074 | 2 |
+    - router + adapter + attention 학습
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **noaux _lr5e5** | 77.0 | 84.4 | 61.5 | 66.9 | 75.2 | 73.0 | 1 |
+    | **noaux_lr5e5** | 76.33 | 83.8 | 61.5 | 67.9 | 74.3 | 72.766 | 2 |
+
+
+
+# Llama
+# Dense model
+
+- base model
+    - 학습하지 않은 base model
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | eval-llama-base | 53 | 53.2 | 35.3 | 68.1 | 56.9 | 53.3 |
+- domain model
+    - 각 도메인별로 학습한 모델
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | code | 65.33 | 55.9 | 34.5 | 71 | 57.6 | 56.766 |
+        | law | 47.33 | 88.2 | 33.9 | 62.2 | 51.3 | 56.586 |
+        | math | 55.67 | 56.1 | 47.9 | 72.2 | 57.2 | 57.814 |
+        | medical | 57.33 | 53.8 | 40 | 76.8 | 58 | 57.186 |
+    - 20%만 사용한 모델
+        
+        
+        | domain | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-code-only** | 59.67 | 55 | 35.8 | 72.7 | 56.9 | **56.014** |
+        | **eval-math-only** | 56 | 55 | 38.8 | 72.9 | 57.4 | **56.02** |
+        | **eval-medical-only** | 57.67 | 54.7 | 38.1 | 75.3 | 57.4 | **56.634** |
+        | **eval-law-only** | 56 | 73.6 | 35.9 | 71.6 | 58.2 | **59.06** |
+    
+- general model
+    
+    모든 데이터셋을 학습한 모델
+    
+    - mlp만 학습
+        
+        
+        | name | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-adapter-general** | 62.67 | 79.9 | 44.5 | 76.3 | 57.7 | **64.214** |
+    - mlp + attention도 학습
+        
+        
+        | lr | code | law | math | medical | mmlu | average |
+        | --- | --- | --- | --- | --- | --- | --- |
+        | 2e4 | 66.0 | 85.8 | 45.8 | 75.4 | 57.6 | **66.12** |
+
+# MoE model
+
+- moe-base model
+    
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **eval-moe-base** | 58.33 | 73.6 | 37.1 | 73.2 | 57.7 | **59.986** | 1 |
+    | **eval-moe-base** | 62.33 | 74.8 | 38.8 | 75 | 58.9 | **61.966** | 2 |
+- D2H model
+    
+    domain model를 결합한 형태
+    
+    - Router만 학습
+        
+        
+        | domain | code | law | math | medical | mmlu | average | top-k |
+        | --- | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-epoch1_12600_noaux_5e4** | 63.33 | 87.6 | 46.3 | 72.4 | 57.9 | **65.506** | 1 |
+        | **eval-epoch1_12600_noaux_2e4** | 65 | 85.4 | 46 | 73.4 | 58 | **65.56** | 2 |
+    - 각자 한번에 학습
+    
+    | **domain** | **average** | **code** | **law** | **math** | **medical** | **mmlu** | **top-k** |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **eval-attention-aux-0-lr-5e5-top1** | **64.66** | 65 | 86.6 | 45.7 | 68.3 | 57.7 | 1 |
+    | **eval-attention+mlp-aux-0-lr-5e5-top1** | **65.18** | 62 | 87.3 | 46.2 | 72.4 | 58 | 1 |
+    | **eval-mlp-aux-0-lr-5e5-top1** | **65.4** | 63 | 87.6 | 46.5 | 72.5 | 57.4 | 1 |
+    | **eval-attention-aux-0-lr-5e5-top2** | **65.58** | 65 | 85.5 | 45.6 | 74 | 57.8 | 2 |
+    | **eval-attention+mlp-aux-0-lr-5e5-top2** | **63** | 60 | 85.3 | 44.6 | 66.9 | 58.2 | 2 |
+    | **eval-mlp-aux-0-lr-5e5-top2** | **65.506** | 65.33 | 85.6 | 45.1 | 73.5 | 58 | 2 |
+    
+    - router를 먼저 학습한 후 결합
+        
+        
+        | domain | average | code | law | math | medical | mmlu | top-k |
+        | --- | --- | --- | --- | --- | --- | --- | --- |
+        | **eval-trained-attention-aux-noaux-lr-2e5-top1** | **65.134** | 61.67 | 87.6 | 45.8 | 72.6 | 58 | 1 |
+        | **eval-trained-attention+mlp-aux-noaux-lr-2e5-top1** | **65.186** | 63.33 | 88 | 44.8 | 72.5 | 57.3 | 1 |
+        | **eval-trained-mlp-aux-noaux-lr-2e5-top1** | **65.306** | 63.33 | 87.9 | 45.3 | 72.3 | 57.7 | 1 |
+        | **eval-trained-attention-aux-noaux-lr-2e5-top2** | **65.354** | 63.67 | 86.5 | 46.1 | 72.7 | 57.8 | 2 |
+        | **eval-trained-attention+mlp-aux-noaux-lr-2e5-top2** | **65.374** | 63.67 | 87 | 45.9 | 72.2 | 58.1 | 2 |
+        | **eval-trained-mlp-aux-noaux-lr-2e5-top2** | **65.074** | 63.67 | 86.5 | 45.3 | 72.3 | 57.6 | 2 |
+- zero adapter model
+    
+    여기를 추가로 실험해햐 할듯
+    
+    - router+adapter만 학습 (0,1,2,6)으로 쓰자(5e4)
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **zero-start-router_mlp** | 56 | 51.7 | 35.4 | 70.9 | 57 | **54.2** | 1 |
+    | **zero-start-router_mlp_attention** | 61 | 81.6 | 42.5 | 71.3 | 57 | **62.68** | 2 |
+    - router + adapter + attention 학습(5e5)
+    
+    | domain | code | law | math | medical | mmlu | average | top-k |
+    | --- | --- | --- | --- | --- | --- | --- | --- |
+    | **zero-start-router_mlp** | 56 | 51.7 | 35.4 | 70.9 | 57 | **54.2** | 1 |
+    | **zero-start-router_mlp_attention** | 64.33 | 82.7 | 43.8 | 72.5 | 57.7 | **64.206** | 2 |
+
+
+
+**Author**: Gyubin Choi    
