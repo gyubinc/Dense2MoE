@@ -12,10 +12,18 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional
 
+import sys
 import torch
 from torch.utils.data import Dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+# 프로젝트 루트를 sys.path에 추가하여 src, config 모듈을 찾을 수 있게 함
+CURRENT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = CURRENT_DIR.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+# 이제 프로젝트 모듈을 임포트
 from src.utils.wandb_utils import (
     finish_wandb,
     generate_run_name,
@@ -24,11 +32,6 @@ from src.utils.wandb_utils import (
     log_something,
 )
 
-
-CURRENT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = CURRENT_DIR.parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
 
 from config.domains import domain_manager
 from config.moe import get_gpu_config, get_model_config
@@ -136,7 +139,14 @@ def _load_model(
             raise FileNotFoundError(f"Adapter path not found: {adapter_path}")
         model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
 
-    model.to(device)
+    # device_map="auto"가 사용된 경우 model.to(device)를 호출하면 분산 구조가 깨지므로 호출하지 않음
+    if getattr(model, "is_fully_shifted", False) or \
+       (hasattr(model, "hf_device_map") and model.hf_device_map):
+        # 분산 로드된 경우 첫 번째 파라미터의 장치를 사용
+        device = next(model.parameters()).device
+    else:
+        model.to(device)
+
     model.eval()
     return model, tokenizer, device
 

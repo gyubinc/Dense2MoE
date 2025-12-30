@@ -124,7 +124,7 @@ python scripts/training/train_router.py --output-dir moe_models/run1 --target at
 ```bash
 # MoE 모델 평가
 python scripts/evaluation/evaluate.py \
-    --moe-model-path moe_models/run1/final_model/pytorch_model.bin \
+    --moe-model-path /data/disk5/internship_disk/gyubin/MoE_models/Llama_model/final_router/router_epoch3_12600_aux_0_5e-4_top1/final_model/pytorch_model.bin \
     --domain medical --max-samples 200
 
 # 도메인 LoRA 평가
@@ -157,7 +157,7 @@ python scripts/training/train_router.py --output-dir moe_models/run1 --epochs 1
 
 # 4. 평가
 python scripts/evaluation/evaluate.py \
-    --moe-model-path moe_models/run1/final_model/pytorch_model.bin \
+    --moe-model-path /data/disk5/internship_disk/gyubin/MoE_models/Llama_model/final_router/router_epoch3_12600_aux_0_5e-4_top1/final_model/pytorch_model.bin \
     --domain medical
 ```
 
@@ -169,7 +169,26 @@ python scripts/evaluation/evaluate.py \
 
 ---
 
-**Author**: Gyubin Choi
+
+# Model 위치
+
+전체 모델 디렉토리: /data/disk5/internship_disk/gyubin/MoE_models
+Llama best model
+top-1
+/data/disk5/internship_disk/gyubin/MoE_models/Llama_model/final_router/router_epoch3_12600_aux_0_5e-4_top1/final_model/pytorch_model.bin
+top-2
+/data/disk5/internship_disk/gyubin/MoE_models/Llama_model/final_router/router_epoch3_12600_aux_0_2e-4_top2/final_model/pytorch_model.bin
+
+
+Qwen best model
+top-1
+/data/disk5/internship_disk/gyubin/MoE_models/Qwen_MoE/final_router/router_epoch3_12600_noaux_5e4_top1/final_model/pytorch_model.bin
+top-2
+/data/disk5/internship_disk/gyubin/MoE_models/Qwen_MoE/final_router/router_epoch3_12600_noaux_2e4_top2/final_model/pytorch_model.bin
+
+
+
+
 
 # Experiment Results
 
